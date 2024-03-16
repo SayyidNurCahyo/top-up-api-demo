@@ -22,7 +22,7 @@ public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "email", nullable = false, unique = true)
-    private String username;
+    private String email;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "is_enabled")
@@ -42,7 +42,7 @@ public class UserAccount implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

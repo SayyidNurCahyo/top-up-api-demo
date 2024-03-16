@@ -1,10 +1,10 @@
-package com.enigma.bank_demo;
+package com.enigma.swift_charge_demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BankDemoApplicationTests {
+class SwiftChargeDemoApplicationTests {
 
 	@Test
 	void contextLoads() {

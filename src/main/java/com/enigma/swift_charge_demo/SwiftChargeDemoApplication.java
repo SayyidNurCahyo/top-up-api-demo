@@ -1,13 +1,13 @@
-package com.enigma.bank_demo;
+package com.enigma.swift_charge_demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BankDemoApplication {
+public class SwiftChargeDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BankDemoApplication.class, args);
+		SpringApplication.run(SwiftChargeDemoApplication.class, args);
 	}
 
 }

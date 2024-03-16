@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.enigma</groupId>
-	<artifactId>bank_demo</artifactId>
+	<artifactId>swift_charge_demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bank_demo</name>
-	<description>Demo project for Bank API Using Spring Boot</description>
+	<name>swift_charge_demo</name>
+	<description>Demo project for Top Up Service API Using Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

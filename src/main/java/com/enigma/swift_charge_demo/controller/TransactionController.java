@@ -1,6 +1,13 @@
 package com.enigma.swift_charge_demo.controller;
 
 import com.enigma.swift_charge_demo.constant.APIUrl;
+import com.enigma.swift_charge_demo.dto.request.NewTransactionRequest;
+import com.enigma.swift_charge_demo.dto.request.SearchTransactionRequest;
+import com.enigma.swift_charge_demo.dto.request.UpdateStatusRequest;
+import com.enigma.swift_charge_demo.dto.response.CommonResponse;
+import com.enigma.swift_charge_demo.dto.response.PagingResponse;
+import com.enigma.swift_charge_demo.dto.response.TransactionResponse;
+import com.enigma.swift_charge_demo.security.AuthenticatedUser;
 import com.enigma.swift_charge_demo.service.TransactionService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +34,24 @@ public class TransactionController {
         TransactionResponse transaction = transactionService.addTransaction(request);
         CommonResponse<TransactionResponse> response = CommonResponse.<TransactionResponse>builder()
                 .statusCode(HttpStatus.CREATED.value())
-                .message(ResponseMessage.SUCCESS_SAVE_DATA)
+                .message("successfully save data")
                 .data(transaction).build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse<List<GetTransactionResponse>>> getAllTransaction(
+    public ResponseEntity<CommonResponse<List<TransactionResponse>>> getAllTransaction(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
-            @RequestParam(name = "size", defaultValue = "10") Integer size
+            @RequestParam(name = "size", defaultValue = "10") Integer size,
+            @RequestParam(name = "sortBy", defaultValue = "product_name") String sortBy,
+            @RequestParam(name = "direction", defaultValue = "asc") String direction,
+            @RequestParam(name = "dateStart", required = false) String dateStart,
+            @RequestParam(name = "dateEnd", required = false) String dateEnd
     ) {
-        SearchTransactionRequest request = SearchTransactionRequest.builder().page(page).size(size).build();
-        Page<GetTransactionResponse> transactions = transactionService.getAllTransaction(request);
+        SearchTransactionRequest request = SearchTransactionRequest.builder().page(page).size(size)
+                .direction(direction).sortBy(sortBy).dateStart(dateStart).dateEnd(dateEnd).build();
+        Page<TransactionResponse> transactions = transactionService.getAllTransaction(request);
         PagingResponse paging = PagingResponse.builder()
                 .page(transactions.getPageable().getPageNumber() + 1)
                 .size(transactions.getPageable().getPageSize())
@@ -47,23 +59,21 @@ public class TransactionController {
                 .totalElement(transactions.getTotalElements())
                 .hasNext(transactions.hasNext())
                 .hasPrevious(transactions.hasPrevious()).build();
-        CommonResponse<List<GetTransactionResponse>> response = CommonResponse.<List<GetTransactionResponse>>builder()
+        CommonResponse<List<TransactionResponse>> response = CommonResponse.<List<TransactionResponse>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(ResponseMessage.SUCCESS_GET_DATA)
+                .message("OK")
                 .data(transactions.getContent())
                 .paging(paging).build();
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN') or @authenticatedUser.hasId(#customerId)")
+    @PreAuthorize("hasRole('ADMIN') or @authenticatedUser.hasId(#customerId)")
     @GetMapping(path = "/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse<List<GetTransactionResponse>>> getAllTransactionByCustomerId(
-            @PathVariable String customerId
-    ) {
-        List<GetTransactionResponse> transactions = transactionService.getAllByCustomerId(customerId);
-        CommonResponse<List<GetTransactionResponse>> response = CommonResponse.<List<GetTransactionResponse>>builder()
+    public ResponseEntity<CommonResponse<List<TransactionResponse>>> getAllTransactionByCustomerId(@PathVariable String customerId) {
+        List<TransactionResponse> transactions = transactionService.getAllByCustomerId(customerId);
+        CommonResponse<List<TransactionResponse>> response = CommonResponse.<List<TransactionResponse>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(ResponseMessage.SUCCESS_GET_DATA)
+                .message("OK")
                 .data(transactions)
                 .build();
         return ResponseEntity.ok(response);
@@ -77,6 +87,6 @@ public class TransactionController {
         transactionService.updateStatus(statusRequest);
         return ResponseEntity.ok(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(ResponseMessage.SUCCESS_UPDATE_DATA).build());
+                .message("OK").build());
     }
 }

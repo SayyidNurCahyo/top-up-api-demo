@@ -15,4 +15,8 @@ import java.util.Optional;
 public interface UserAccountRepository extends JpaRepository<UserAccount, String> {
     @Query(value = "SELECT * FROM m_user_account WHERE email = :email", nativeQuery = true)
     Optional<UserAccount> findByEmail(@Param("email") String email);
+
+    @Modifying
+    @Query(value = "UPDATE m_user_account SET is_enable = false WHERE id = :id", nativeQuery = true)
+    void disableAccount(@Param("id") String id);
 }

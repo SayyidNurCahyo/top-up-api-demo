@@ -11,5 +11,9 @@ public class TransactionResponse {
     private String id;
     private String date;
     private String customerName;
-    private String
+    private String customerEmail;
+    private String productName;
+    private Long productPrice;
+    private String paymentId;
+    private String redirectUrl;
 }

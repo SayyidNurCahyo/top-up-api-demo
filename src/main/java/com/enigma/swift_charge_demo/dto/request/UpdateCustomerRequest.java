@@ -12,6 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UpdateCustomerRequest {
+    @NotBlank(message = "id is required")
+    private String id;
     @NotBlank(message = "name is required")
     private String name;
     @NotBlank(message = "email is required")
@@ -20,5 +22,5 @@ public class UpdateCustomerRequest {
     @NotBlank(message = "phone number is required")
     @Pattern(regexp = "^(\\+62|0)(8[0-9]{2}[-.\\s]?[0-9]{3,}-?[0-9]{3,}|\\(0[0-9]{2}\\)[-\\s]?[0-9]{3,}-?[0-9]{3,}|\\+62[-\\s]?[0-9]{1,2}[-.\\s]?[0-9]{3,}-?[0-9]{3,})$", message = "phone number is not in indonesia format")
     private String phone;
-    private UserAccount userAccount;
+    private String password;
 }

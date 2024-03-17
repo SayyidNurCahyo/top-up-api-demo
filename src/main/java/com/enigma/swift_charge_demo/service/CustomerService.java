@@ -11,5 +11,5 @@ public interface CustomerService {
     CustomerResponse getById(String id);
     Page<CustomerResponse> getAll(SearchCustomerRequest request);
     CustomerResponse update(UpdateCustomerRequest request);
-    CustomerResponse deleteById(String id);
+    void deleteById(String id);
 }

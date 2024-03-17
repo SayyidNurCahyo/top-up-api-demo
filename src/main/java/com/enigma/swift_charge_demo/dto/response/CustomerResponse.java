@@ -12,5 +12,5 @@ public class CustomerResponse {
     private String customerName;
     private String customerPhone;
     private String customerEmail;
-    private String isEnabled;
+    private Boolean isEnabled;
 }

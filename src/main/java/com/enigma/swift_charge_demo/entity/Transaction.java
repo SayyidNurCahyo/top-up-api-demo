@@ -23,10 +23,10 @@ public class Transaction {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id",nullable = false)
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private Product product;
     @OneToOne
     @JoinColumn(name = "payment_id")

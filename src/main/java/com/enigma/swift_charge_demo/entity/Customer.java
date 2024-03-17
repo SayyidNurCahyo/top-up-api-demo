@@ -19,9 +19,7 @@ public class Customer {
     private String name;
     @Column(name = "customer_phone", nullable = false)
     private String phone;
-    @Column(name = "customer_email", nullable = false)
-    private String email;
     @OneToOne
-    @Column(name = "user_account_id")
+    @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 }

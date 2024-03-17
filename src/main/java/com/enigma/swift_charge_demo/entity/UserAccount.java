@@ -25,7 +25,7 @@ public class UserAccount implements UserDetails {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "is_enabled")
+    @Column(name = "is_enable")
     private Boolean isEnabled;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;

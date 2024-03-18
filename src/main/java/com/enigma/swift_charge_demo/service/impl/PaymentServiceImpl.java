@@ -38,7 +38,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment createPayment(Transaction transaction) {
         PaymentProductRequest productRequest = PaymentProductRequest.builder()
-                .name(transaction.getProduct().getName()).price(transaction.getProduct().getPrice()).build();
+                .name(transaction.getProduct().getName()).price(transaction.getProduct().getPrice())
+                .quantity(1).build();
         PaymentRequest request = PaymentRequest.builder()
                 .paymentDetail(PaymentTotalRequest.builder()
                         .orderId(UUID.randomUUID().toString())

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment,String> {
-    List<Payment> findAllByTransactionStatusIn(List<String> transactionStatus);
+    List<Payment> findAllByStatusIn(List<String> transactionStatus);
 }

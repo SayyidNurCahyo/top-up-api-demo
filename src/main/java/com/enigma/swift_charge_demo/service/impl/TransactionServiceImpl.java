@@ -41,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
         CustomerResponse customerResponse = customerService.getById(request.getCustomerId());
         ProductResponse productResponse = productService.getById(request.getProductId());
         Transaction transaction = Transaction.builder()
-                .date(parseDate(String.valueOf(System.currentTimeMillis()), "yyyy-MM-dd"))
+                .date(parseDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"yyyy-MM-dd"))
                 .customer(Customer.builder().id(customerResponse.getCustomerId())
                         .name(customerResponse.getCustomerName())
                         .phone(customerResponse.getCustomerPhone())
@@ -53,6 +53,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPayment(payment);
         PaymentResponse paymentResponse = PaymentResponse.builder().id(payment.getId())
                 .redirectUrl(payment.getRedirectUrl()).status(payment.getStatus()).build();
+        transactionRepository.saveAndFlush(transaction);
         return TransactionResponse.builder().id(transaction.getId())
                 .date(transaction.getDate().toString()).customerName(transaction.getCustomer().getName())
                 .customerEmail(transaction.getCustomer().getUserAccount().getEmail())

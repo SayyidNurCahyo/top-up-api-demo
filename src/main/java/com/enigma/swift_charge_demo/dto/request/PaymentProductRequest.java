@@ -10,4 +10,5 @@ import lombok.*;
 public class PaymentProductRequest {
     private String name;
     private Long price;
+    private Integer quantity;
 }

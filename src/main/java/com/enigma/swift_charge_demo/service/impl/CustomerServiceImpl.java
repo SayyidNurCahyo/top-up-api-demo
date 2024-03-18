@@ -1,7 +1,6 @@
 package com.enigma.swift_charge_demo.service.impl;
 
 import com.enigma.swift_charge_demo.dto.request.SearchCustomerRequest;
-import com.enigma.swift_charge_demo.dto.request.UpdateCustomerRequest;
 import com.enigma.swift_charge_demo.dto.response.CustomerResponse;
 import com.enigma.swift_charge_demo.entity.Customer;
 import com.enigma.swift_charge_demo.entity.UserAccount;
@@ -55,13 +54,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public CustomerResponse update(UpdateCustomerRequest request) {
-        validationUtil.validate(request);
-        Customer customer = customerRepository.findByIdEnable(request.getId()).orElseThrow(()->new RuntimeException("customer not found"));
-        customer.setName(request.getName());
-        customer.setPhone(request.getPhone());
+    public CustomerResponse updateEnable(String id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(()->new RuntimeException("customer not found"));
         UserAccount account = customer.getUserAccount();
-        account.setPassword(passwordEncoder.encode(request.getPassword()));
         account.setIsEnabled(true);
         customer.setUserAccount(account);
         customerRepository.saveAndFlush(customer);

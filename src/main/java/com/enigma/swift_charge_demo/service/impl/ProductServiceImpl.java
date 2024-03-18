@@ -52,13 +52,14 @@ public class ProductServiceImpl implements ProductService {
             Page<Product> products = productRepository.findProductByNameOrPriceBetween(request.getName(), request.getPriceMin(), request.getPriceMax(), pageable).orElseThrow(()-> new RuntimeException("product not found"));
             return convertToPageProductResponse(products);
         } else if (request.getPriceMax() != null) {
-            Page<Product> products = productRepository.findByNameOrPrice(request.getPriceMax(), pageable).orElseThrow(()-> new RuntimeException("product not found"));
+            Page<Product> products = productRepository.findPriceLess(request.getPriceMax(), pageable).orElseThrow(()-> new RuntimeException("product not found"));
             return convertToPageProductResponse(products);
         } else if (request.getPriceMin() != null) {
-            Page<Product> products = productRepository.findByNameOrPrice(request.getPriceMin(), pageable).orElseThrow(()-> new RuntimeException("product not found"));
+            Page<Product> products = productRepository.findPriceGreater(request.getPriceMin(), pageable).orElseThrow(()-> new RuntimeException("product not found"));
             return convertToPageProductResponse(products);
         } else {
-            return convertToPageProductResponse(productRepository.findAll(pageable));
+            Page<Product> products = productRepository.findAllAvailable(pageable);
+            return convertToPageProductResponse(products);
         }
     }
 

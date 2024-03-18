@@ -18,12 +18,12 @@ public interface TransactionRepository extends JpaRepository<Transaction,String>
     @Query(value = "SELECT * FROM t_bill WHERE transaction_date BETWEEN :dateStart AND :dateEnd", nativeQuery = true)
     Optional<Page<Transaction>> findBetweenDate(@Param("dateStart") Date dateStart, @Param("dateEnd") Date dateEnd, Pageable pageable);
 
-    @Query("SELECT * FROM t_bill WHERE transaction_date < :dateEnd")
+    @Query(value = "SELECT * FROM t_bill WHERE transaction_date < :dateEnd", nativeQuery = true)
     Optional<Page<Transaction>> findBeforeDate(@Param("dateEnd") Date dateEnd, Pageable pageable);
 
-    @Query("SELECT * FROM t_bill WHERE transaction_date > :dateStart")
+    @Query(value = "SELECT * FROM t_bill WHERE transaction_date > :dateStart", nativeQuery = true)
     Optional<Page<Transaction>> findAfterDate(@Param("dateStart") Date dateEnd, Pageable pageable);
 
-    @Query("SELECT * FROM t_bill WHERE customer_id = :id")
+    @Query(value = "SELECT * FROM t_bill WHERE customer_id = :id", nativeQuery = true)
     Optional<List<Transaction>> findTrById(@Param("id") String customerId);
 }

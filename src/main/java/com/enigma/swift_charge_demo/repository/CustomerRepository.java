@@ -12,7 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String> {
-    @Query(value = "SELECT c.id, c.customer_name, c.customer_phone, c.user_account_id FROM m_customer AS c JOIN m_user_account AS ua ON ua.id = c.user_account_id WHERE c.id = :id AND ua.is_enable = true",nativeQuery = true)
+    @Query(value = "SELECT c.id, c.customer_name, c.customer_phone, c.user_account_id FROM m_customer AS c " +
+            "JOIN m_user_account AS ua ON ua.id = c.user_account_id WHERE c.id = :id AND ua.is_enable = true",nativeQuery = true)
     Optional<Customer> findByIdEnable(String id);
 
     @Query(value = "SELECT c.id, c.customer_name, c.customer_phone, c.user_account_id FROM m_customer AS c JOIN m_user_account AS ua ON ua.id = c.user_account_id WHERE c.customer_name = :name AND ua.is_enable = true", nativeQuery = true)
